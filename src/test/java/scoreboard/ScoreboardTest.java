@@ -217,7 +217,7 @@ public class ScoreboardTest {
         Match match = matchSummary.getFirst();
 
         match.setScore(5, 1);
-        match.setMatchFinished();
+        match.finishMatch();
 
         List<Match> maybeChangedMatchSummary = scoreboard.getMatchSummary();
         Match maybeChangedMatch = maybeChangedMatchSummary.getFirst();

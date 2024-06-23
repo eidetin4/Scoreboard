@@ -26,6 +26,10 @@ public class Scoreboard {
     }
 
     public void updateScore(int matchId, int homeScore, int awayScore) {
+        if (homeScore < 0 || awayScore < 0) {
+            throw new IllegalArgumentException("Scores must not be negative");
+        }
+
         Match match = matches.get(matchId);
 
         if (match == null) {
@@ -34,10 +38,6 @@ public class Scoreboard {
 
         if (match.isFinished()) {
             throw new IllegalArgumentException("Match is finished");
-        }
-
-        if (homeScore < 0 || awayScore < 0) {
-            throw new IllegalArgumentException("Scores must not be negative");
         }
 
         match.setScore(homeScore, awayScore);
@@ -54,7 +54,7 @@ public class Scoreboard {
             throw new IllegalArgumentException("Match is already finished");
         }
 
-        match.setMatchFinished();
+        match.finishMatch();
     }
 
     public List<Match> getMatchSummary() {

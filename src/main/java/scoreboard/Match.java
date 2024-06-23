@@ -42,12 +42,12 @@ public class Match implements Cloneable {
         return isFinished;
     }
 
-    public void setScore(int homeScore, int awayScore) {
+    void setScore(int homeScore, int awayScore) {
         this.homeScore = homeScore;
         this.awayScore = awayScore;
     }
 
-    public void setMatchFinished() {
+    void finishMatch() {
         isFinished = true;
     }
 

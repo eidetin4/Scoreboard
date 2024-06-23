@@ -17,6 +17,10 @@ public class Scoreboard {
     }
 
     public int startMatch(String homeTeam, String awayTeam) {
+        if (homeTeam == null || awayTeam == null || homeTeam.isEmpty() || awayTeam.isEmpty()) {
+            throw new IllegalArgumentException("Teams must not be null");
+        }
+
         int matchId = nextMatchId.getAndIncrement();
 
         matches.put(matchId, new Match(matchId, homeTeam, awayTeam));

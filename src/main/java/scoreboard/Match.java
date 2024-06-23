@@ -5,16 +5,14 @@ public class Match {
     private final int matchId;
     private final String homeTeam;
     private final String awayTeam;
-    private final long startTime;
     private int homeScore;
     private int awayScore;
     private boolean isFinished;
 
-    Match(int matchId, String homeTeam, String awayTeam, long startTime) {
+    Match(int matchId, String homeTeam, String awayTeam) {
         this.matchId = matchId;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.startTime = startTime;
         homeScore = 0;
         awayScore = 0;
         isFinished = false;
@@ -30,10 +28,6 @@ public class Match {
 
     public String getAwayTeam() {
         return awayTeam;
-    }
-
-    public long getStartTime() {
-        return startTime;
     }
 
     public int getHomeScore() {

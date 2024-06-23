@@ -16,8 +16,10 @@ It supports starting new matches, updating scores, finishing matches, and gettin
 ```java
 Scoreboard scoreboard = new Scoreboard();
 int matchId = scoreboard.startMatch("Mexico", "Canada");
+int homeScore = 0;
+int awayScore = 5;
 
-scoreboard.updateScore(matchId, 0, 5);
+scoreboard.updateScore(matchId, homeScore, awayScore);
 scoreboard.finishMatch(matchId);
 List<Match> summary = scoreboard.getSummary();
 ```

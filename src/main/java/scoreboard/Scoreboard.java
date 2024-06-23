@@ -4,23 +4,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Scoreboard {
 
     private final Map<Integer, Match> matches;
-    private int nextMatchId;
+    private final AtomicInteger nextMatchId;
 
     public Scoreboard() {
         matches = new HashMap<>();
-        nextMatchId = 1;
+        nextMatchId = new AtomicInteger(1);
     }
 
     public int startMatch(String homeTeam, String awayTeam) {
-        int matchId = nextMatchId++;
+        int matchId = nextMatchId.getAndIncrement();
 
         matches.put(matchId, new Match(matchId, homeTeam, awayTeam));
 
         return matchId;
+    }
+
+    public void updateScore(int matchId, int homeScore, int awayScore) {
+
+    }
+
+    public void finishMatch(int matchId) {
+
     }
 
     public List<Match> getMatchSummary() {

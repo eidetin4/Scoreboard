@@ -11,12 +11,19 @@ public class ScoreboardTest {
     @Test
     public void testStartMatch() {
         Scoreboard scoreboard = new Scoreboard();
+        assertEquals(0, scoreboard.getMatchSummary().size());
 
         int matchId1 = scoreboard.startMatch("Mexico", "Canada");
         int matchId2 = scoreboard.startMatch("Spain", "Brazil");
 
         assertEquals(1, matchId1);
         assertEquals(2, matchId2);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+
+        assertEquals(2, matchSummary.size());
+        assertMatch(matchSummary.get(0), "Spain", "Brazil", 0, 0);
+        assertMatch(matchSummary.get(1), "Mexico", "Canada", 0, 0);
     }
 
     @Test

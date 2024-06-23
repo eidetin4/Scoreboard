@@ -2,7 +2,6 @@ package scoreboard;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class Scoreboard {
 
@@ -27,17 +26,49 @@ public class Scoreboard {
     }
 
     public void updateScore(int matchId, int homeScore, int awayScore) {
+        Match match = matches.get(matchId);
 
+        if (match == null) {
+            throw new IllegalArgumentException("Match not found");
+        }
+
+        if (match.isFinished()) {
+            throw new IllegalArgumentException("Match is finished");
+        }
+
+        if (homeScore < 0 || awayScore < 0) {
+            throw new IllegalArgumentException("Scores must not be negative");
+        }
+
+        match.setScore(homeScore, awayScore);
     }
 
     public void finishMatch(int matchId) {
+        Match match = matches.get(matchId);
 
+        if (match == null) {
+            throw new IllegalArgumentException("Match not found");
+        }
+
+        if (match.isFinished()) {
+            throw new IllegalArgumentException("Match is already finished");
+        }
+
+        match.setMatchFinished();
     }
 
     public List<Match> getMatchSummary() {
         List<Match> scoreboardMatches = new ArrayList<>(matches.values());
 
         scoreboardMatches.removeIf(Match::isFinished);
+
+        if (scoreboardMatches.isEmpty()) {
+            return List.of();
+        }
+
+        if (scoreboardMatches.size() == 1) {
+            return List.of(scoreboardMatches.getFirst().clone());
+        }
 
         scoreboardMatches.sort((m1, m2) -> {
             int totalScore1 = m1.getHomeScore() + m1.getAwayScore();

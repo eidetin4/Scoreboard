@@ -73,26 +73,62 @@ public class ScoreboardTest {
     @Test
     public void testUpdateScoreOneMatch() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId = scoreboard.startMatch("Mexico", "Canada");
+
+        scoreboard.updateScore(matchId, 0, 5);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+
+        assertEquals(1, matchSummary.size());
+        assertMatch(matchSummary.getFirst(), "Mexico", "Canada", 0, 5);
     }
 
     @Test
     public void testUpdateScoreMultipleMatches() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId1 = scoreboard.startMatch("Mexico", "Canada");
+        int matchId2 = scoreboard.startMatch("Spain", "Brazil");
+        int matchId3 = scoreboard.startMatch("Germany", "France");
+
+        scoreboard.updateScore(matchId1, 0, 5);
+        scoreboard.updateScore(matchId2, 10, 2);
+        scoreboard.updateScore(matchId3, 2, 2);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+
+        assertEquals(3, matchSummary.size());
+        assertMatch(matchSummary.get(0), "Spain", "Brazil", 10, 2);
+        assertMatch(matchSummary.get(1), "Mexico", "Canada", 0, 5);
+        assertMatch(matchSummary.get(2), "Germany", "France", 2, 2);
     }
 
     @Test
     public void testUpdateScoreMatchNotFound() {
         Scoreboard scoreboard = new Scoreboard();
+
+        assertThrows(IllegalArgumentException.class, () -> scoreboard.updateScore(1, 0, 5));
     }
 
     @Test
     public void testUpdateScoreMatchFinished() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId = scoreboard.startMatch("Mexico", "Canada");
+
+        scoreboard.finishMatch(matchId);
+
+        assertThrows(IllegalArgumentException.class, () -> scoreboard.updateScore(matchId, 0, 5));
     }
 
     @Test
     public void testUpdateScoreWithNegativeScores() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId = scoreboard.startMatch("Mexico", "Canada");
+
+        assertThrows(IllegalArgumentException.class, () -> scoreboard.updateScore(matchId, -1, 5));
     }
 
     @Test

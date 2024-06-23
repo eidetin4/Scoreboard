@@ -134,21 +134,51 @@ public class ScoreboardTest {
     @Test
     public void testFinishOneMatch() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId1 = scoreboard.startMatch("Mexico", "Canada");
+        scoreboard.startMatch("Spain", "Brazil");
+
+        scoreboard.finishMatch(matchId1);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+
+        assertEquals(1, matchSummary.size());
+        assertMatch(matchSummary.getFirst(), "Spain", "Brazil", 0, 0);
     }
 
     @Test
     public void testFinishMultipleMatches() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId1 = scoreboard.startMatch("Mexico", "Canada");
+        scoreboard.startMatch("Spain", "Brazil");
+        int matchId3 = scoreboard.startMatch("Germany", "France");
+
+        scoreboard.finishMatch(matchId1);
+        scoreboard.finishMatch(matchId3);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+
+        assertEquals(1, matchSummary.size());
+        assertMatch(matchSummary.getFirst(), "Spain", "Brazil", 0, 0);
     }
 
     @Test
     public void testFinishMatchNotFound() {
         Scoreboard scoreboard = new Scoreboard();
+
+        assertThrows(IllegalArgumentException.class, () -> scoreboard.finishMatch(1));
     }
 
     @Test
     public void testFinishMatchAlreadyFinished() {
         Scoreboard scoreboard = new Scoreboard();
+
+        int matchId = scoreboard.startMatch("Mexico", "Canada");
+
+        scoreboard.finishMatch(matchId);
+
+        assertThrows(IllegalArgumentException.class, () -> scoreboard.finishMatch(matchId));
     }
 
     @Test

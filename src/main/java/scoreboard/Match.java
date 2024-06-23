@@ -1,6 +1,6 @@
 package scoreboard;
 
-public class Match {
+public class Match implements Cloneable {
 
     private final int matchId;
     private final String homeTeam;
@@ -49,5 +49,14 @@ public class Match {
 
     public void setMatchFinished() {
         isFinished = true;
+    }
+
+    @Override
+    public Match clone() {
+        try {
+            return (Match) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

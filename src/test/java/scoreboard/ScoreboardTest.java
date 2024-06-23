@@ -71,12 +71,47 @@ public class ScoreboardTest {
     }
 
     @Test
-    public void testUpdateScore() {
+    public void testUpdateScoreOneMatch() {
         Scoreboard scoreboard = new Scoreboard();
     }
 
     @Test
-    public void testFinishMatch() {
+    public void testUpdateScoreMultipleMatches() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testUpdateScoreMatchNotFound() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testUpdateScoreMatchFinished() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testUpdateScoreWithNegativeScores() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testFinishOneMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testFinishMultipleMatches() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testFinishMatchNotFound() {
+        Scoreboard scoreboard = new Scoreboard();
+    }
+
+    @Test
+    public void testFinishMatchAlreadyFinished() {
         Scoreboard scoreboard = new Scoreboard();
     }
 
@@ -98,6 +133,34 @@ public class ScoreboardTest {
         assertMatch(initialMatchSummary.get(2), "Germany", "France", 0, 0);
         assertMatch(initialMatchSummary.get(3), "Spain", "Brazil", 0, 0);
         assertMatch(initialMatchSummary.get(4), "Mexico", "Canada", 0, 0);
+    }
+
+    @Test
+    public void testMatchSummaryListShouldBeImmutable() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        int matchId = scoreboard.startMatch("Mexico", "Canada");
+
+        scoreboard.updateScore(matchId, 0, 5);
+
+        List<Match> matchSummary = scoreboard.getMatchSummary();
+        Match match = matchSummary.getFirst();
+
+        match.setScore(5, 1);
+
+        List<Match> maybeChangedScoreMatchSummary = scoreboard.getMatchSummary();
+        Match maybeChangedScoreMatch = maybeChangedScoreMatchSummary.getFirst();
+
+        assertEquals(0, maybeChangedScoreMatch.getHomeScore());
+        assertEquals(5, maybeChangedScoreMatch.getAwayScore());
+
+        match.setMatchFinished();
+
+        List<Match> maybeSetFinishedMatchSummary = scoreboard.getMatchSummary();
+        assertEquals(1, maybeSetFinishedMatchSummary.size());
+
+        Match maybeSetFinishedMatch = maybeSetFinishedMatchSummary.getFirst();
+        assertFalse(maybeSetFinishedMatch.isFinished());
     }
 
     private static void assertMatch(Match match, String homeTeam, String awayTeam, int homeScore, int awayScore) {

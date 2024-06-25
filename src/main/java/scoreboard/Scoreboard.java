@@ -10,12 +10,16 @@ public class Scoreboard {
 
     public Scoreboard() {
         matches = new HashMap<>();
-        nextMatchId = new AtomicInteger(1);
+        nextMatchId = new AtomicInteger(1); // Possible overflow should be hanlded
     }
 
     public int startMatch(String homeTeam, String awayTeam) {
         if (homeTeam == null || awayTeam == null || homeTeam.isEmpty() || awayTeam.isEmpty()) {
-            throw new IllegalArgumentException("Teams must not be null");
+            throw new IllegalArgumentException("Teams name(s) must not be null or empty");
+        }
+
+        if (matches.values().stream().anyMatch(m -> m.getHomeTeam().equals(homeTeam) || m.getAwayTeam().equals(homeTeam) || m.getHomeTeam().equals(awayTeam) || m.getAwayTeam().equals(awayTeam))) {
+            throw new IllegalArgumentException("Team is already playing");
         }
 
         int matchId = nextMatchId.getAndIncrement();
@@ -36,10 +40,6 @@ public class Scoreboard {
             throw new IllegalArgumentException("Match not found");
         }
 
-        if (match.isFinished()) {
-            throw new IllegalArgumentException("Match is finished");
-        }
-
         match.setScore(homeScore, awayScore);
     }
 
@@ -50,17 +50,11 @@ public class Scoreboard {
             throw new IllegalArgumentException("Match not found");
         }
 
-        if (match.isFinished()) {
-            throw new IllegalArgumentException("Match is already finished");
-        }
-
-        match.finishMatch();
+        matches.remove(matchId);
     }
 
     public List<Match> getMatchSummary() {
         List<Match> scoreboardMatches = new ArrayList<>(matches.values());
-
-        scoreboardMatches.removeIf(Match::isFinished);
 
         if (scoreboardMatches.isEmpty()) {
             return List.of();

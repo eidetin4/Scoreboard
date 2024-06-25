@@ -7,7 +7,6 @@ public class Match implements Cloneable {
     private final String awayTeam;
     private int homeScore;
     private int awayScore;
-    private boolean isFinished;
 
     Match(int matchId, String homeTeam, String awayTeam) {
         this.matchId = matchId;
@@ -15,7 +14,6 @@ public class Match implements Cloneable {
         this.awayTeam = awayTeam;
         homeScore = 0;
         awayScore = 0;
-        isFinished = false;
     }
 
     public int getMatchId() {
@@ -38,17 +36,9 @@ public class Match implements Cloneable {
         return awayScore;
     }
 
-    public boolean isFinished() {
-        return isFinished;
-    }
-
     void setScore(int homeScore, int awayScore) {
         this.homeScore = homeScore;
         this.awayScore = awayScore;
-    }
-
-    void finishMatch() {
-        isFinished = true;
     }
 
     @Override

@@ -72,6 +72,13 @@ public class ScoreboardTest {
     }
 
     @Test
+    public void testStartMatchWhileTeamIsAlreadyPlaying() {
+        scoreboard.startMatch(MEXICO, CANADA);
+
+        assertThrows("Should throw exception for team already playing", IllegalArgumentException.class, () -> scoreboard.startMatch(MEXICO, BRAZIL));
+    }
+
+    @Test
     public void testUpdateScoreOneMatch() {
         int matchId = scoreboard.startMatch(MEXICO, CANADA);
 
@@ -166,7 +173,7 @@ public class ScoreboardTest {
     }
 
     @Test
-    public void testGetInitialMatchSummary() {
+    public void testGetInitialSameScoreMatchSummary() {
         scoreboard.startMatch(MEXICO, CANADA);
         scoreboard.startMatch(SPAIN, BRAZIL);
         scoreboard.startMatch(GERMANY, FRANCE);
@@ -217,15 +224,12 @@ public class ScoreboardTest {
         Match match = matchSummary.getFirst();
 
         match.setScore(5, 1);
-        match.finishMatch();
 
         List<Match> maybeChangedMatchSummary = scoreboard.getMatchSummary();
         Match maybeChangedMatch = maybeChangedMatchSummary.getFirst();
 
         assertEquals("Home score should not change", 0, maybeChangedMatch.getHomeScore());
         assertEquals("Away score should not change", 5, maybeChangedMatch.getAwayScore());
-        assertFalse("Match should not be finished", maybeChangedMatch.isFinished());
-        assertEquals("Scoreboard should have one match", 1, maybeChangedMatchSummary.size());
     }
 
     private static void assertMatch(Match match, String homeTeam, String awayTeam, int homeScore, int awayScore) {

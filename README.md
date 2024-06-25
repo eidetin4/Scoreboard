@@ -17,14 +17,6 @@ The scoreboard supports the following operations:
     - Parameters: Match id
 4. **Get summary**: Provides a summary of ongoing matches ordered by their total score. Matches with the same total score are ordered by the most recently started match.
 
-## Installation
-
-To use this library, clone the repository and include it in your Java project.
-
-```bash
-git clone https://github.com/eidetin4/Scoreboard.git
-```
-
 ## Usage
 
 ```java

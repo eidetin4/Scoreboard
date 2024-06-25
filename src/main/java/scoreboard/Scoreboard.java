@@ -18,7 +18,11 @@ public class Scoreboard {
             throw new IllegalArgumentException("Teams name(s) must not be null or empty");
         }
 
-        if (matches.values().stream().anyMatch(m -> m.getHomeTeam().equals(homeTeam) || m.getAwayTeam().equals(homeTeam) || m.getHomeTeam().equals(awayTeam) || m.getAwayTeam().equals(awayTeam))) {
+        if (matches.values().stream().anyMatch(m ->
+                        m.getHomeTeam().equals(homeTeam) ||
+                        m.getAwayTeam().equals(homeTeam) ||
+                        m.getHomeTeam().equals(awayTeam) ||
+                        m.getAwayTeam().equals(awayTeam))) {
             throw new IllegalArgumentException("Team is already playing");
         }
 

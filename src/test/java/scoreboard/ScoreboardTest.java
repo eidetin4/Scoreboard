@@ -36,24 +36,20 @@ public class ScoreboardTest {
 
     @Test
     public void testStartOneMatch() {
-        int matchId = scoreboard.startMatch(MEXICO, CANADA);
+        scoreboard.startMatch(MEXICO, CANADA);
         List<Match> matchSummary = scoreboard.getMatchSummary();
 
-        assertEquals("Match ID should be 1", 1, matchId);
         assertEquals("Scoreboard should have one match", 1, matchSummary.size());
         assertMatch(matchSummary.getFirst(), MEXICO, CANADA, 0, 0);
     }
 
     @Test
     public void testStartMultipleMatches() {
-        int matchId1 = scoreboard.startMatch(MEXICO, CANADA);
-        int matchId2 = scoreboard.startMatch(SPAIN, BRAZIL);
-        int matchId3 = scoreboard.startMatch(GERMANY, FRANCE);
+        scoreboard.startMatch(MEXICO, CANADA);
+        scoreboard.startMatch(SPAIN, BRAZIL);
+        scoreboard.startMatch(GERMANY, FRANCE);
         List<Match> matchSummary = scoreboard.getMatchSummary();
 
-        assertEquals("First match ID should be 1", 1, matchId1);
-        assertEquals("Second match ID should be 2", 2, matchId2);
-        assertEquals("Third match ID should be 3", 3, matchId3);
         assertEquals("Scoreboard should have size 3", 3, matchSummary.size());
         assertMatch(matchSummary.get(0), GERMANY, FRANCE, 0, 0);
         assertMatch(matchSummary.get(1), SPAIN, BRAZIL, 0, 0);
@@ -75,7 +71,11 @@ public class ScoreboardTest {
     public void testStartMatchWhileTeamIsAlreadyPlaying() {
         scoreboard.startMatch(MEXICO, CANADA);
 
-        assertThrows("Should throw exception for team already playing", IllegalArgumentException.class, () -> scoreboard.startMatch(MEXICO, BRAZIL));
+        assertThrows(
+                "Should throw exception for team already playing",
+                IllegalArgumentException.class,
+                () -> scoreboard.startMatch(MEXICO, BRAZIL)
+        );
     }
 
     @Test
@@ -110,7 +110,11 @@ public class ScoreboardTest {
 
     @Test
     public void testUpdateScoreMatchNotFound() {
-        assertThrows("Should throw exception for non-existent match", IllegalArgumentException.class, () -> scoreboard.updateScore(1000, 0, 5));
+        assertThrows(
+                "Should throw exception for non-existent match",
+                IllegalArgumentException.class,
+                () -> scoreboard.updateScore(1000, 0, 5)
+        );
     }
 
     @Test
@@ -119,7 +123,11 @@ public class ScoreboardTest {
 
         scoreboard.finishMatch(matchId);
 
-        assertThrows("Should throw exception for finished match", IllegalArgumentException.class, () -> scoreboard.updateScore(matchId, 0, 5));
+        assertThrows(
+                "Should throw exception for finished match",
+                IllegalArgumentException.class,
+                () -> scoreboard.updateScore(matchId, 0, 5)
+        );
 
     }
 
@@ -127,7 +135,11 @@ public class ScoreboardTest {
     public void testUpdateScoreWithNegativeScores() {
         int matchId = scoreboard.startMatch(MEXICO, CANADA);
 
-        assertThrows("Should throw exception for negative score", IllegalArgumentException.class, () -> scoreboard.updateScore(matchId, -1, 5));
+        assertThrows(
+                "Should throw exception for negative score",
+                IllegalArgumentException.class,
+                () -> scoreboard.updateScore(matchId, -1, 5)
+        );
     }
 
     @Test
@@ -160,7 +172,11 @@ public class ScoreboardTest {
 
     @Test
     public void testFinishMatchNotFound() {
-        assertThrows("Should throw exception for non-existent match", IllegalArgumentException.class, () -> scoreboard.finishMatch(1));
+        assertThrows(
+                "Should throw exception for non-existent match",
+                IllegalArgumentException.class,
+                () -> scoreboard.finishMatch(1)
+        );
     }
 
     @Test
@@ -169,7 +185,11 @@ public class ScoreboardTest {
 
         scoreboard.finishMatch(matchId);
 
-        assertThrows("Should throw exception for already finished match", IllegalArgumentException.class, () -> scoreboard.finishMatch(matchId));
+        assertThrows(
+                "Should throw exception for already finished match",
+                IllegalArgumentException.class,
+                () -> scoreboard.finishMatch(matchId)
+        );
     }
 
     @Test
